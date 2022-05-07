@@ -5,10 +5,10 @@ import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { theme } from "./utils/constants";
-import { createRoot } from "react-dom/client";
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+import { createRoot } from "react-dom/client";
+const container = document.getElementById("app");
+const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
