@@ -1,8 +1,4 @@
-import { IconEyeClose } from "components/icon";
-import { Input } from "components/input";
-import { Label } from "components/label";
 import React from "react";
-import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 const SignUpPageStyles = styled.div`
@@ -24,42 +20,31 @@ const SignUpPageStyles = styled.div`
     align-items: flex-start;
     gap: 20px 0;
   }
-
-  .form {
-    max-width: 600px;
-    margin: 0 auto;
+  .label {
+    color: ${(props) => props.theme.grayDark};
+    font-weight: 600;
+    cursor: pointer;
   }
 `;
 
 const SignUpPage = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    watch,
-  } = useForm();
-  const handleSignUp = (values) => {
-    console.log(values);
-  };
   return (
     <SignUpPageStyles>
       <div className="container">
         <img srcSet="./logo.png 2x" alt="monkey-blogging" className="logo" />
         <h1 className="heading">Monkey Blogging</h1>
-        <form className="form" onSubmit={handleSubmit(handleSignUp)}>
+        <form>
           <div className="field">
-            <Label htmlFor="fullname" className="label">
+            <label htmlFor="fullname" className="label">
               Fullname
-            </Label>
-            <Input
+            </label>
+            <input
               type="text"
-              name="fullname"
+              name=""
+              id=""
               className="input"
               placeholder="Enter your fullName"
-              control={control}
-            >
-              <IconEyeClose className="input-icon"></IconEyeClose>
-            </Input>
+            />
           </div>
         </form>
       </div>

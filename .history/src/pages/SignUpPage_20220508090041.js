@@ -1,4 +1,3 @@
-import { IconEyeClose } from "components/icon";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import React from "react";
@@ -32,21 +31,13 @@ const SignUpPageStyles = styled.div`
 `;
 
 const SignUpPage = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    watch,
-  } = useForm();
-  const handleSignUp = (values) => {
-    console.log(values);
-  };
+  const { control } = useForm();
   return (
     <SignUpPageStyles>
       <div className="container">
         <img srcSet="./logo.png 2x" alt="monkey-blogging" className="logo" />
         <h1 className="heading">Monkey Blogging</h1>
-        <form className="form" onSubmit={handleSubmit(handleSignUp)}>
+        <form className="form">
           <div className="field">
             <Label htmlFor="fullname" className="label">
               Fullname
@@ -56,10 +47,9 @@ const SignUpPage = () => {
               name="fullname"
               className="input"
               placeholder="Enter your fullName"
+              hasIcon
               control={control}
-            >
-              <IconEyeClose className="input-icon"></IconEyeClose>
-            </Input>
+            />
           </div>
         </form>
       </div>

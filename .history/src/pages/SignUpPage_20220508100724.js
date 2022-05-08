@@ -56,6 +56,7 @@ const SignUpPage = () => {
               name="fullname"
               className="input"
               placeholder="Enter your fullName"
+              hasIcon
               control={control}
             >
               <IconEyeClose className="input-icon"></IconEyeClose>

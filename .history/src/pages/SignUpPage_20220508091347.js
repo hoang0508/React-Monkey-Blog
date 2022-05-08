@@ -1,4 +1,3 @@
-import { IconEyeClose } from "components/icon";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import React from "react";
@@ -56,10 +55,9 @@ const SignUpPage = () => {
               name="fullname"
               className="input"
               placeholder="Enter your fullName"
+              hasIcon
               control={control}
-            >
-              <IconEyeClose className="input-icon"></IconEyeClose>
-            </Input>
+            />
           </div>
         </form>
       </div>
