@@ -83,9 +83,15 @@ const SignUpPage = () => {
               control={control}
             >
               {!togglePassword ? (
-                <IconEyeClose onClick={handleTogglePassword}></IconEyeClose>
+                <IconEyeClose
+                  className="input-icon"
+                  onClick={handleTogglePassword}
+                ></IconEyeClose>
               ) : (
-                <IconEyeOpen onClick={handleTogglePassword}></IconEyeOpen>
+                <IconEyeOpen
+                  className="input-icon"
+                  onClick={handleTogglePassword}
+                ></IconEyeOpen>
               )}
             </Input>
           </Field>

@@ -36,7 +36,7 @@ const Input = ({ name = "", type = "text", children, control, ...props }) => {
   return (
     <InputStyles hasIcon={children ? true : ""}>
       <input id={name} type={type} {...field} {...props} />
-      {children ? <div className="input-icon">{children}</div> : null}
+      {children ? <div className="input-icon">{children}</div>}
     </InputStyles>
   );
 };

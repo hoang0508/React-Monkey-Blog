@@ -1,5 +1,5 @@
 import { Field } from "components/field";
-import { IconEyeClose, IconEyeOpen } from "components/icon";
+import { IconEyeClose } from "components/icon";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import React, { useState } from "react";
@@ -82,11 +82,10 @@ const SignUpPage = () => {
               placeholder="Enter your password"
               control={control}
             >
-              {!togglePassword ? (
-                <IconEyeClose onClick={handleTogglePassword}></IconEyeClose>
-              ) : (
-                <IconEyeOpen onClick={handleTogglePassword}></IconEyeOpen>
-              )}
+              <IconEyeClose
+                className="input-icon"
+                onClick={handleTogglePassword}
+              ></IconEyeClose>
             </Input>
           </Field>
         </form>

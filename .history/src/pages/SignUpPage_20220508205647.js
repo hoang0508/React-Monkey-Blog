@@ -1,8 +1,8 @@
 import { Field } from "components/field";
-import { IconEyeClose, IconEyeOpen } from "components/icon";
+import { IconEyeClose } from "components/icon";
 import { Input } from "components/input";
 import { Label } from "components/label";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
@@ -32,14 +32,8 @@ const SignUpPage = () => {
     formState: { errors, isSubmitting, isValid },
     watch,
   } = useForm();
-  // Submit form
   const handleSignUp = (values) => {
     console.log(values);
-  };
-  // Toggle password
-  const [togglePassword, setTogglePassword] = useState(false);
-  const handleTogglePassword = () => {
-    setTogglePassword(!togglePassword);
   };
   return (
     <SignUpPageStyles>
@@ -57,36 +51,22 @@ const SignUpPage = () => {
               className="input"
               placeholder="Enter your fullName"
               control={control}
-            ></Input>
+            >
+              <IconEyeClose className="input-icon"></IconEyeClose>
+            </Input>
           </Field>
           <Field>
             <Label htmlFor="email" className="label">
               Email address
             </Label>
             <Input
-              type="email"
+              type="text"
               name="email"
               className="input"
               placeholder="Enter your email"
               control={control}
-            ></Input>
-          </Field>
-          <Field>
-            <Label htmlFor="password" className="label">
-              Password
-            </Label>
-            <Input
-              type={togglePassword ? "text" : "password"}
-              name="password"
-              className="input"
-              placeholder="Enter your password"
-              control={control}
             >
-              {!togglePassword ? (
-                <IconEyeClose onClick={handleTogglePassword}></IconEyeClose>
-              ) : (
-                <IconEyeOpen onClick={handleTogglePassword}></IconEyeOpen>
-              )}
+              <IconEyeClose className="input-icon"></IconEyeClose>
             </Input>
           </Field>
         </form>
