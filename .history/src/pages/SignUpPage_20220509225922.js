@@ -78,7 +78,7 @@ const SignUpPage = () => {
     });
     // Collection, Firestore
     const colRef = collection(db, "users");
-    await addDoc(colRef, {
+    addDoc(colRef, {
       name: values.fullname,
       email: values.email,
       password: values.password,

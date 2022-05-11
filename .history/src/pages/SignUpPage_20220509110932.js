@@ -4,18 +4,10 @@ import { IconEyeClose, IconEyeOpen } from "components/icon";
 import { Input } from "components/input";
 import { Label } from "components/label";
 import { LoadingSpiner } from "components/loading";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import styled from "styled-components";
-import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "firebase-app/firsbase-config";
-import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
 
-// styled component
 const SignUpPageStyles = styled.div`
   min-height: 100vh;
   padding: 40px;
@@ -35,75 +27,23 @@ const SignUpPageStyles = styled.div`
   }
 `;
 
-// Validation Yup
-const schema = yup.object({
-  fullname: yup.string().required(`Please enter your fullName`),
-  email: yup
-    .string()
-    .email("Please enter valid email address")
-    .required("Please enter your address"),
-  password: yup
-    .string()
-    .min(8, "Your password must be at least 8 character or greater")
-    .required("Please enter your password"),
-});
-
 const SignUpPage = () => {
-  // Navigate
-  const navigate = useNavigate();
-  // React hook form
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     watch,
-  } = useForm({
-    mode: "onChange",
-    resolver: yupResolver(schema),
-  });
+  } = useForm();
   // Submit form
-  const handleSignUp = async (values) => {
-    if (!isValid) return;
+  const handleSignUp = (values) => {
     console.log(values);
-    // return new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve();
-    //   }, 5000);
-    // });
-    // Tạo tài khoản
-    await createUserWithEmailAndPassword(auth, values.email, values.password);
-    // displayName
-    await updateProfile(auth.currentUser, {
-      displayName: values.fullname,
-    });
-    // Collection, Firestore
-    const colRef = collection(db, "users");
-    await addDoc(colRef, {
-      name: values.fullname,
-      email: values.email,
-      password: values.password,
-    });
-    //  toast success
-    toast.success(`Register successfully!!!`);
-    // navigate
-    navigate(`/`);
+    console.log(isSubmitting);
   };
-
   // Toggle password
   const [togglePassword, setTogglePassword] = useState(false);
   const handleTogglePassword = () => {
     setTogglePassword(!togglePassword);
   };
-  // useEffect , toastify. error
-  useEffect(() => {
-    const arrErrors = Object.values(errors);
-    if (arrErrors.length > 0) {
-      toast.error(arrErrors[0]?.message, {
-        pauseOnHover: false,
-        delay: 100,
-      });
-    }
-  }, [errors]);
   return (
     <SignUpPageStyles>
       <div className="container">
@@ -154,8 +94,8 @@ const SignUpPage = () => {
           </Field>
           <Button
             type="submit"
-            disabled={isSubmitting}
-            isLoading={isSubmitting}
+            disable={false}
+            isLoading={false}
             style={{ maxWidth: 300, margin: "0 auto" }}
           >
             Sign up

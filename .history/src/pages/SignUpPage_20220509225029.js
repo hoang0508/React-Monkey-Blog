@@ -11,9 +11,7 @@ import * as yup from "yup";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "firebase-app/firsbase-config";
-import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { auth } from "firebase-app/firsbase-config";
 
 // styled component
 const SignUpPageStyles = styled.div`
@@ -50,7 +48,7 @@ const schema = yup.object({
 
 const SignUpPage = () => {
   // Navigate
-  const navigate = useNavigate();
+
   // React hook form
   const {
     control,
@@ -72,23 +70,13 @@ const SignUpPage = () => {
     // });
     // Tạo tài khoản
     await createUserWithEmailAndPassword(auth, values.email, values.password);
+    //  toast success
+    toast.success(`Register successfully!!!`);
     // displayName
     await updateProfile(auth.currentUser, {
       displayName: values.fullname,
     });
-    // Collection, Firestore
-    const colRef = collection(db, "users");
-    await addDoc(colRef, {
-      name: values.fullname,
-      email: values.email,
-      password: values.password,
-    });
-    //  toast success
-    toast.success(`Register successfully!!!`);
-    // navigate
-    navigate(`/`);
   };
-
   // Toggle password
   const [togglePassword, setTogglePassword] = useState(false);
   const handleTogglePassword = () => {

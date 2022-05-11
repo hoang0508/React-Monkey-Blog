@@ -19,7 +19,6 @@ root.render(
       <GlobalStyles></GlobalStyles>
       <BrowserRouter>
         <App />
-        <ToastContainer />
       </BrowserRouter>
     </ThemeProvider>
   </React.StrictMode>

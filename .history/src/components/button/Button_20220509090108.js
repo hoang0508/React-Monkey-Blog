@@ -11,7 +11,7 @@ const ButtonStyles = styled.button`
   border-radius: 8px;
   font-weight: 600;
   font-size: 18px;
-  height: ${(props) => props.height || "66px"};
+  height: ${(props) => props.height || "70px"};
   display: flex;
   align-items: center;
   justify-content: center;

@@ -11,9 +11,7 @@ import * as yup from "yup";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "firebase-app/firsbase-config";
-import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { auth } from "firebase-app/firsbase-config";
 
 // styled component
 const SignUpPageStyles = styled.div`
@@ -49,16 +47,12 @@ const schema = yup.object({
 });
 
 const SignUpPage = () => {
-  // Navigate
-  const navigate = useNavigate();
-  // React hook form
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     watch,
   } = useForm({
-    mode: "onChange",
     resolver: yupResolver(schema),
   });
   // Submit form
@@ -70,31 +64,22 @@ const SignUpPage = () => {
     //     resolve();
     //   }, 5000);
     // });
-    // Tạo tài khoản
-    await createUserWithEmailAndPassword(auth, values.email, values.password);
-    // displayName
+    const user = createUserWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password
+    );
     await updateProfile(auth.currentUser, {
       displayName: values.fullname,
     });
-    // Collection, Firestore
-    const colRef = collection(db, "users");
-    await addDoc(colRef, {
-      name: values.fullname,
-      email: values.email,
-      password: values.password,
-    });
-    //  toast success
-    toast.success(`Register successfully!!!`);
-    // navigate
-    navigate(`/`);
+    toast.success(`Create user successfully!!!`);
   };
-
   // Toggle password
   const [togglePassword, setTogglePassword] = useState(false);
   const handleTogglePassword = () => {
     setTogglePassword(!togglePassword);
   };
-  // useEffect , toastify. error
+  // useEffect , toastify
   useEffect(() => {
     const arrErrors = Object.values(errors);
     if (arrErrors.length > 0) {

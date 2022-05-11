@@ -11,7 +11,7 @@ const ButtonStyles = styled.button`
   border-radius: 8px;
   font-weight: 600;
   font-size: 18px;
-  height: ${(props) => props.height || "66px"};
+  height: ${(props) => props.height || "70px"};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@ const ButtonStyles = styled.button`
 
 const Button = ({ type = "text", onClick = () => {}, children, ...props }) => {
   const { isLoading } = props;
-  // console.log("🚀 ~ file: Button.js ~ line 31 ~ Button ~ props", props);
+  console.log("🚀 ~ file: Button.js ~ line 31 ~ Button ~ props", props);
 
   const child = !!isLoading ? <LoadingSpiner></LoadingSpiner> : children;
   return (
