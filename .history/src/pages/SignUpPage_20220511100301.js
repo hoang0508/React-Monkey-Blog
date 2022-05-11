@@ -7,12 +7,14 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import styled from "styled-components";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "firebase-app/firsbase-config";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
+
 
 // Validation Yup
 const schema = yup.object({
@@ -84,68 +86,62 @@ const SignUpPage = () => {
       });
     }
   }, [errors]);
-  // useEffect, document title
-  useEffect(() => {
-    document.title = "Register Page";
-  }, []);
   return (
     <AuthenticationPage>
-      <form className="form" onSubmit={handleSubmit(handleSignUp)}>
-        <Field>
-          <Label htmlFor="fullname" className="label">
-            Fullname
-          </Label>
-          <Input
-            type="text"
-            name="fullname"
-            className="input"
-            placeholder="Enter your fullName"
-            control={control}
-          ></Input>
-        </Field>
-        <Field>
-          <Label htmlFor="email" className="label">
-            Email address
-          </Label>
-          <Input
-            type="email"
-            name="email"
-            className="input"
-            placeholder="Enter your email"
-            control={control}
-          ></Input>
-        </Field>
-        <Field>
-          <Label htmlFor="password" className="label">
-            Password
-          </Label>
-          <Input
-            type={togglePassword ? "text" : "password"}
-            name="password"
-            className="input"
-            placeholder="Enter your password"
-            control={control}
+        <form className="form" onSubmit={handleSubmit(handleSignUp)}>
+          <Field>
+            <Label htmlFor="fullname" className="label">
+              Fullname
+            </Label>
+            <Input
+              type="text"
+              name="fullname"
+              className="input"
+              placeholder="Enter your fullName"
+              control={control}
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="email" className="label">
+              Email address
+            </Label>
+            <Input
+              type="email"
+              name="email"
+              className="input"
+              placeholder="Enter your email"
+              control={control}
+            ></Input>
+          </Field>
+          <Field>
+            <Label htmlFor="password" className="label">
+              Password
+            </Label>
+            <Input
+              type={togglePassword ? "text" : "password"}
+              name="password"
+              className="input"
+              placeholder="Enter your password"
+              control={control}
+            >
+              {!togglePassword ? (
+                <IconEyeClose onClick={handleTogglePassword}></IconEyeClose>
+              ) : (
+                <IconEyeOpen onClick={handleTogglePassword}></IconEyeOpen>
+              )}
+            </Input>
+          </Field>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            isLoading={isSubmitting}
+            style={{ maxWidth: 300, margin: "0 auto" }}
           >
-            {!togglePassword ? (
-              <IconEyeClose onClick={handleTogglePassword}></IconEyeClose>
-            ) : (
-              <IconEyeOpen onClick={handleTogglePassword}></IconEyeOpen>
-            )}
-          </Input>
-        </Field>
-        <div className="have-acount">
-          You already have an acount? <NavLink to={"/sign-in"}>Login</NavLink>
-        </div>
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          isLoading={isSubmitting}
-          style={{ maxWidth: 300, margin: "0 auto" }}
-        >
-          Sign up
-        </Button>
-      </form>
-    </AuthenticationPage>
+            Sign up
+          </Button>
+        </form>
+ 
+    </Auth>
   );
 };
 

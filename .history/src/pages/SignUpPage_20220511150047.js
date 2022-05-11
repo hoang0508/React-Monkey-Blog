@@ -134,7 +134,7 @@ const SignUpPage = () => {
           </Input>
         </Field>
         <div className="have-acount">
-          You already have an acount? <NavLink to={"/sign-in"}>Login</NavLink>
+          You already have an acount? <NavLink to={"/sign-in"}></NavLink>
         </div>
         <Button
           type="submit"

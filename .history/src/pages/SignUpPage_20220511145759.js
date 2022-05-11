@@ -10,7 +10,7 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "firebase-app/firsbase-config";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 
@@ -133,9 +133,6 @@ const SignUpPage = () => {
             )}
           </Input>
         </Field>
-        <div className="have-acount">
-          You already have an acount? <NavLink to={"/sign-in"}>Login</NavLink>
-        </div>
         <Button
           type="submit"
           disabled={isSubmitting}

@@ -7,10 +7,11 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+
 import { toast } from "react-toastify";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "firebase-app/firsbase-config";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { addDoc, collection } from "firebase/firestore";
 import AuthenticationPage from "./AuthenticationPage";
 
@@ -84,10 +85,6 @@ const SignUpPage = () => {
       });
     }
   }, [errors]);
-  // useEffect, document title
-  useEffect(() => {
-    document.title = "Register Page";
-  }, []);
   return (
     <AuthenticationPage>
       <form className="form" onSubmit={handleSubmit(handleSignUp)}>
@@ -133,9 +130,6 @@ const SignUpPage = () => {
             )}
           </Input>
         </Field>
-        <div className="have-acount">
-          You already have an acount? <NavLink to={"/sign-in"}>Login</NavLink>
-        </div>
         <Button
           type="submit"
           disabled={isSubmitting}
