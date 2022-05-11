@@ -1,15 +1,10 @@
-import Header from "components/layout/Header";
 import React from "react";
 import styled from "styled-components";
 
 const HomePageStyles = styled.div``;
 
 const HomePage = () => {
-  return (
-    <HomePageStyles>
-      <Header />
-    </HomePageStyles>
-  );
+  return <HomePageStyles></HomePageStyles>;
 };
 
 export default HomePage;

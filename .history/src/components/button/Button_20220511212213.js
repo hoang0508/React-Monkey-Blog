@@ -4,6 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 const ButtonStyles = styled.button`
   cursor: pointer;
+
   padding: 0 25px;
   line-height: 1;
   color: white;
