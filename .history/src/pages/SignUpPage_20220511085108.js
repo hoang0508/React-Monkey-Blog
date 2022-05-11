@@ -75,7 +75,7 @@ const SignUpPage = () => {
     await updateProfile(auth.currentUser, {
       displayName: values.fullname,
     });
-    // Collection, Firestore , addDoc
+    // Collection, Firestore
     const colRef = collection(db, "users");
     await addDoc(colRef, {
       name: values.fullname,
@@ -90,7 +90,6 @@ const SignUpPage = () => {
 
   // Toggle password
   const [togglePassword, setTogglePassword] = useState(false);
-  // handleTogglePasssword
   const handleTogglePassword = () => {
     setTogglePassword(!togglePassword);
   };

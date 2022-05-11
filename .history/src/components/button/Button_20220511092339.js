@@ -25,9 +25,8 @@ const ButtonStyles = styled.button`
     pointer-events: none;
   }
 `;
-// Param button
+
 /**
- * @param {*} onClick Handler onClick
  * @requires
  * @param {string} type Type of 'button' | 'submit'
  * @returns
@@ -49,8 +48,6 @@ const Button = ({ type = "text", onClick = () => {}, children, ...props }) => {
 Button.propTypes = {
   type: PropTypes.oneOf(["button", "submit"]).isRequired,
   isLoading: PropTypes.bool,
-  onClick: PropTypes.func,
-  children: PropTypes.node,
 };
 
 export default Button;

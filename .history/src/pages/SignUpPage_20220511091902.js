@@ -153,7 +153,7 @@ const SignUpPage = () => {
             </Input>
           </Field>
           <Button
-            type="submit"
+            type="abcv"
             disabled={isSubmitting}
             isLoading={isSubmitting}
             style={{ maxWidth: 300, margin: "0 auto" }}
