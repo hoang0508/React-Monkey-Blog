@@ -24,7 +24,7 @@ const PostCategoryStyles = styled.div`
 
 const PostCategory = ({ children, type = "primary", className = "" }) => {
   return (
-    <PostCategoryStyles className={`post-category ${className}`} type={type}>
+    <PostCategoryStyles className={className} type={type}>
       {children}
     </PostCategoryStyles>
   );

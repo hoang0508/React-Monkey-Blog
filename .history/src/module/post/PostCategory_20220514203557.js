@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 const PostCategoryStyles = styled.div`
   display: inline-block;
   padding: 4px 10px;
-  border-radius: 10px;
+  border-radius: 8px;
   color: #6b6b6b;
   font-size: 14px;
   font-weight: 600;
@@ -15,16 +15,11 @@ const PostCategoryStyles = styled.div`
     css`
       background-color: ${(props) => props.theme.grayF3}; ;
     `};
-  ${(props) =>
-    props.type === "secondary" &&
-    css`
-      background-color: white;
-    `};
 `;
 
 const PostCategory = ({ children, type = "primary", className = "" }) => {
   return (
-    <PostCategoryStyles className={`post-category ${className}`} type={type}>
+    <PostCategoryStyles className={className} type={type}>
       {children}
     </PostCategoryStyles>
   );

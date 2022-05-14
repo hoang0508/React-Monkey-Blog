@@ -64,7 +64,9 @@ const PostNewestItem = () => {
         />
       </div>
       <div className="post-content">
-        <PostCategory type="secondary">Kiến thức</PostCategory>
+        <PostCategory type="secondary" className="post-category">
+          Kiến thức
+        </PostCategory>
         <h3 className="post-title">
           Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
         </h3>

@@ -51,7 +51,7 @@ const PostNewestLarge = () => {
           alt=""
         />
       </div>
-      <PostCategory>Kiến thức</PostCategory>
+      <PostCategory className="post-category">Kiến thức</PostCategory>
       <h3 className="post-title">
         Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
       </h3>

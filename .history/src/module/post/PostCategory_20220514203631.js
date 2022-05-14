@@ -15,16 +15,11 @@ const PostCategoryStyles = styled.div`
     css`
       background-color: ${(props) => props.theme.grayF3}; ;
     `};
-  ${(props) =>
-    props.type === "secondary" &&
-    css`
-      background-color: white;
-    `};
 `;
 
 const PostCategory = ({ children, type = "primary", className = "" }) => {
   return (
-    <PostCategoryStyles className={`post-category ${className}`} type={type}>
+    <PostCategoryStyles className={className} type={type}>
       {children}
     </PostCategoryStyles>
   );

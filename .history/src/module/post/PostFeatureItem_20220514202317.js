@@ -81,6 +81,7 @@ const PostFeatureItem = () => {
       <div className="post-content">
         <div className="post-top">
           <PostCategory>Kiến thức</PostCategory>
+
           <div className="post-info">
             <span className="post-time">Mar 23</span>
             <span className="post-dot"></span>

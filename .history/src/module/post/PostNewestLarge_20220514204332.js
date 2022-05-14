@@ -22,9 +22,6 @@ const PostNewestLargeStyles = styled.div`
       font-weight: 600;
       margin-left: auto;
     }
-    &-category {
-      margin-bottom: 10px;
-    }
     &-dot {
       display: inline-block;
       width: 4px;

@@ -22,9 +22,6 @@ const PostNewestLargeStyles = styled.div`
       font-weight: 600;
       margin-left: auto;
     }
-    &-category {
-      margin-bottom: 10px;
-    }
     &-dot {
       display: inline-block;
       width: 4px;
@@ -51,7 +48,7 @@ const PostNewestLarge = () => {
           alt=""
         />
       </div>
-      <PostCategory>Kiến thức</PostCategory>
+      <PostCategory type="secondary">Kiến thức</PostCategory>
       <h3 className="post-title">
         Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
       </h3>
