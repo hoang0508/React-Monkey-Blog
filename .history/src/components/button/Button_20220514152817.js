@@ -44,28 +44,22 @@ const ButtonStyles = styled.button`
  * @returns
  */
 
-const Button = ({
-  type = "text",
-  onClick = () => {},
-  kind = "primary",
-  children,
-  ...props
-}) => {
+const Button = ({ type = "text", onClick = () => {}, children, ...props }) => {
   const { isLoading, to } = props;
   // child
   const child = !!isLoading ? <LoadingSpiner></LoadingSpiner> : children;
   // NavLink , to
   if (to !== "" && typeof to === "string") {
     return (
-      <NavLink to={to} style={{ display: "inline-block" }}>
-        <ButtonStyles type={type} kind={kind} onClick={onClick} {...props}>
+      <NavLink to={to}>
+        <ButtonStyles type={type} onClick={onClick} {...props}>
           {child}
         </ButtonStyles>
       </NavLink>
     );
   }
   return (
-    <ButtonStyles type={type} kind={kind} onClick={onClick} {...props}>
+    <ButtonStyles type={type} onClick={onClick} {...props}>
       {child}
     </ButtonStyles>
   );

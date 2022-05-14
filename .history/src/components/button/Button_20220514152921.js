@@ -47,7 +47,7 @@ const ButtonStyles = styled.button`
 const Button = ({
   type = "text",
   onClick = () => {},
-  kind = "primary",
+  kind = "secondary",
   children,
   ...props
 }) => {
@@ -57,7 +57,7 @@ const Button = ({
   // NavLink , to
   if (to !== "" && typeof to === "string") {
     return (
-      <NavLink to={to} style={{ display: "inline-block" }}>
+      <NavLink to={to}>
         <ButtonStyles type={type} kind={kind} onClick={onClick} {...props}>
           {child}
         </ButtonStyles>
