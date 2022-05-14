@@ -33,7 +33,6 @@ const HeaderStyles = styled.header`
     display: flex;
     align-items: center;
     position: relative;
-    margin-right: 20px;
   }
   .search-input {
     flex: 1;
@@ -60,12 +59,6 @@ const menuLink = [
     title: "Contact",
   },
 ];
-
-//
-const getLastName = (name) => {
-  const length = name?.split(" ").length;
-  return name?.split(" ")[length - 1];
-};
 
 const Header = () => {
   const { userInfo } = useAuth();
@@ -138,12 +131,7 @@ const Header = () => {
               Sign Up
             </Button>
           ) : (
-            <div className="header-auth">
-              <span>Welcome back,</span>
-              <strong className="text-primary">
-                {getLastName(userInfo?.displayName)}
-              </strong>
-            </div>
+            <div className="header-auth">{userInfo?.displayName}</div>
           )}
         </div>
       </div>

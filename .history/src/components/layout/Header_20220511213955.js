@@ -1,5 +1,4 @@
 import { Button } from "components/button";
-import { useAuth } from "contexts/auth-context";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -33,7 +32,6 @@ const HeaderStyles = styled.header`
     display: flex;
     align-items: center;
     position: relative;
-    margin-right: 20px;
   }
   .search-input {
     flex: 1;
@@ -61,15 +59,7 @@ const menuLink = [
   },
 ];
 
-//
-const getLastName = (name) => {
-  const length = name?.split(" ").length;
-  return name?.split(" ")[length - 1];
-};
-
 const Header = () => {
-  const { userInfo } = useAuth();
-  console.log("🚀 ~ file: Header.js ~ line 65 ~ Header ~ userInfo", userInfo);
   return (
     <HeaderStyles>
       <div className="container">
@@ -128,23 +118,14 @@ const Header = () => {
               </svg>
             </span>
           </div>
-          {!userInfo ? (
-            <Button
-              type="button"
-              height="56px"
-              className="header-button"
-              to="/sign-up"
-            >
-              Sign Up
-            </Button>
-          ) : (
-            <div className="header-auth">
-              <span>Welcome back,</span>
-              <strong className="text-primary">
-                {getLastName(userInfo?.displayName)}
-              </strong>
-            </div>
-          )}
+          <Button
+            type="button"
+            height="56px"
+            className="header-button"
+            to="/sign-up"
+          >
+            Sign Up
+          </Button>
         </div>
       </div>
     </HeaderStyles>

@@ -63,8 +63,8 @@ const menuLink = [
 
 //
 const getLastName = (name) => {
-  const length = name?.split(" ").length;
-  return name?.split(" ")[length - 1];
+  const length = name.split(" ").length;
+  return name.split(" ")[length - 1];
 };
 
 const Header = () => {

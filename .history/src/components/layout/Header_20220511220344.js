@@ -33,7 +33,6 @@ const HeaderStyles = styled.header`
     display: flex;
     align-items: center;
     position: relative;
-    margin-right: 20px;
   }
   .search-input {
     flex: 1;
@@ -60,12 +59,6 @@ const menuLink = [
     title: "Contact",
   },
 ];
-
-//
-const getLastName = (name) => {
-  const length = name?.split(" ").length;
-  return name?.split(" ")[length - 1];
-};
 
 const Header = () => {
   const { userInfo } = useAuth();
@@ -128,23 +121,14 @@ const Header = () => {
               </svg>
             </span>
           </div>
-          {!userInfo ? (
-            <Button
-              type="button"
-              height="56px"
-              className="header-button"
-              to="/sign-up"
-            >
-              Sign Up
-            </Button>
-          ) : (
-            <div className="header-auth">
-              <span>Welcome back,</span>
-              <strong className="text-primary">
-                {getLastName(userInfo?.displayName)}
-              </strong>
-            </div>
-          )}
+          <Button
+            type="button"
+            height="56px"
+            className="header-button"
+            to="/sign-up"
+          >
+            Sign Up
+          </Button>
         </div>
       </div>
     </HeaderStyles>
