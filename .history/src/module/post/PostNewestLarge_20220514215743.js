@@ -34,7 +34,7 @@ const PostNewestLargeStyles = styled.div`
       border-radius: 100rem;
     }
     &-title {
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
   }
 `;
@@ -49,7 +49,8 @@ const PostNewestLarge = () => {
         />
       </div>
       <PostCategory>Kiến thức</PostCategory>
-      <PostTitle size="big">
+      <PostTitle>
+        {" "}
         Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
       </PostTitle>
       <div className="post-info">

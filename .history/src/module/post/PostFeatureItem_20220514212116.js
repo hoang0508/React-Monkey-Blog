@@ -58,6 +58,13 @@ const PostFeatureItemStyles = styled.div`
       background-color: currentColor;
       border-radius: 100rem;
     }
+    &-title {
+      font-weight: bold;
+      line-height: 1.5;
+      display: block;
+      font-size: 22px;
+      color: white;
+    }
   }
   @media screen and (min-width: 1024px) {
     height: 272px;
@@ -81,7 +88,7 @@ const PostFeatureItem = () => {
             <span className="post-author">Andiez Le</span>
           </div>
         </div>
-        <PostTitle size="big">
+        <PostTitle>
           Hướng dẫn setup phòng cực chill dành cho người mới toàn tập
         </PostTitle>
       </div>

@@ -58,6 +58,13 @@ const PostFeatureItemStyles = styled.div`
       background-color: currentColor;
       border-radius: 100rem;
     }
+    &-title {
+      font-weight: bold;
+      line-height: 1.5;
+      display: block;
+      font-size: 22px;
+      color: white;
+    }
   }
   @media screen and (min-width: 1024px) {
     height: 272px;
