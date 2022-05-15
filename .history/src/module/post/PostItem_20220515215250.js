@@ -14,7 +14,12 @@ const PostItemStyles = styled.div`
       margin-bottom: 20px;
       display: block;
       width: 100%;
-      border-radius: 16px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 16px;
+      }
     }
     &-category {
       margin-bottom: 16px;

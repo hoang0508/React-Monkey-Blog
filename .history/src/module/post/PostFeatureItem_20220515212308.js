@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PostCategory from "./PostCategory";
-import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
 const PostFeatureItemStyles = styled.div`
@@ -13,6 +12,7 @@ const PostFeatureItemStyles = styled.div`
     &-image {
       width: 100%;
       height: 100%;
+      object-fit: cover;
       border-radius: 16px;
     }
     &-overlay {
@@ -41,6 +41,15 @@ const PostFeatureItemStyles = styled.div`
       align-items: center;
       margin-bottom: 16px;
     }
+    &-info {
+    }
+    &-dot {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background-color: currentColor;
+      border-radius: 100rem;
+    }
   }
   @media screen and (min-width: 1024px) {
     height: 272px;
@@ -49,12 +58,11 @@ const PostFeatureItemStyles = styled.div`
 const PostFeatureItem = () => {
   return (
     <PostFeatureItemStyles>
-      <PostImage
-        url="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2662&q=80"
+      <img
+        src="https://images.unsplash.com/photo-1614624532983-4ce03382d63d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2662&q=80"
         alt="unsplash"
-        to="/"
-      ></PostImage>
-
+        className="post-image"
+      />
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">

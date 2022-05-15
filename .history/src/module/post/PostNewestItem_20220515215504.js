@@ -22,7 +22,12 @@ const PostNewestItemStyles = styled.div`
       flex-shrink: 0;
       width: 180px;
       height: 130px;
-      border-radius: 12px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+      }
     }
     &-category {
       margin-bottom: 8px;
@@ -36,10 +41,10 @@ const PostNewestItem = () => {
   return (
     <PostNewestItemStyles>
       <PostImage
-        url="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80"
+        src="https://images.unsplash.com/photo-1510519138101-570d1dca3d66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2294&q=80"
         alt=""
-        to="/"
       ></PostImage>
+
       <div className="post-content">
         <PostCategory type="secondary">Kiến thức</PostCategory>
         <PostTitle>
