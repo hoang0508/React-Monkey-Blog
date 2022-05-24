@@ -41,8 +41,6 @@ const PostAddNew = () => {
   };
   // Progess
   const [progress, setProgress] = useState(0);
-  // Image
-  const [image, setImage] = useState("");
   // handleUploadImage
   const handleUploadImage = (file) => {
     const storage = getStorage();
@@ -74,7 +72,6 @@ const PostAddNew = () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
-          setImage(downloadURL);
         });
       }
     );
@@ -84,7 +81,6 @@ const PostAddNew = () => {
     const file = e.target.files[0];
     if (!file) return;
     setValue("image", file);
-    handleUploadImage(file);
   };
   return (
     <PostAddNewStyles>
@@ -115,8 +111,7 @@ const PostAddNew = () => {
               type="file"
               name="image"
               onChange={(e) => onSelectImage(e)}
-              progress={progress}
-              image={image}
+              progress
             ></ImageUpload>
           </Field>
           <Field>

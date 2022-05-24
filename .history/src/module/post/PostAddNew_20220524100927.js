@@ -4,22 +4,12 @@ import { Dropdown } from "components/dropdown";
 import { Field } from "components/field";
 import { Input } from "components/input";
 import { Label } from "components/label";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import slugify from "slugify";
 import styled from "styled-components";
-import { postStatus } from "utils/constants";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
-import ImageUpload from "components/image/ImageUpload";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
-  // react hook form
   const { control, watch, setValue, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -29,62 +19,13 @@ const PostAddNew = () => {
       category: "",
     },
   });
-  // watch
   const watchStatus = watch("status");
-  // Add Post, submit
-  const addPostHandler = async (values) => {
-    const cloneValues = { ...values };
-
-    cloneValues.slug = slugify(values.slug || values.title);
-    cloneValues.status = Number(values.status);
-    handleUploadImage(cloneValues.image);
-  };
-  // Progess
-  const [progress, setProgress] = useState(0);
-  // Image
-  const [image, setImage] = useState("");
-  // handleUploadImage
-  const handleUploadImage = (file) => {
-    const storage = getStorage();
-    const storageRef = ref(storage, "images/" + file.name);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progressPercen =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progressPercen);
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            console.log("Nothing at all!!");
-        }
-      },
-      (error) => {
-        console.log("Error!!");
-      },
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
-          setImage(downloadURL);
-        });
-      }
+  //
+  const addPostHandler = (values) => {
+    console.log(
+      "🚀 ~ file: PostAddNew.js ~ line 24 ~ addPostHandler ~ values",
+      values
     );
-  };
-  // onSelectImage
-  const onSelectImage = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setValue("image", file);
-    handleUploadImage(file);
   };
   return (
     <PostAddNewStyles>
@@ -110,45 +51,43 @@ const PostAddNew = () => {
         </div>
         <div className="grid grid-cols-2 gap-x-10 mb-10">
           <Field>
-            <Label>Image</Label>
-            <ImageUpload
-              type="file"
-              name="image"
-              onChange={(e) => onSelectImage(e)}
-              progress={progress}
-              image={image}
-            ></ImageUpload>
-          </Field>
-          <Field>
             <Label>Status</Label>
             <div className="flex items-center gap-x-5">
               <Radio
                 name="status"
-                checked={Number(watchStatus) === postStatus.APPROVED}
+                checked={watchStatus === "approved"}
                 control={control}
                 // onClick={() => setValue("status", "approved")}
-                value={postStatus.APPROVED}
+                value="approved"
               >
                 Approved
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === postStatus.PENDING}
+                checked={watchStatus === "pending"}
                 // onClick={() => setValue("status", "pending")}
-                value={postStatus.PENDING}
+                value="pending"
               >
                 Pending
               </Radio>
               <Radio
                 name="status"
                 control={control}
-                checked={Number(watchStatus) === postStatus.REJECTED}
-                value={postStatus.REJECTED}
+                checked={watchStatus === "reject"}
+                value="reject"
               >
                 Reject
               </Radio>
             </div>
+          </Field>
+          <Field>
+            <Label>Author</Label>
+            <Input
+              control={control}
+              placeholder="Enter your Author"
+              name="Author"
+            ></Input>
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-x-10 mb-10">
