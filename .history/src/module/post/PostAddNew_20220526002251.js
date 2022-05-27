@@ -4,18 +4,19 @@ import { Dropdown } from "components/dropdown";
 import { Field } from "components/field";
 import { Input } from "components/input";
 import { Label } from "components/label";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import styled from "styled-components";
 import { postStatus } from "utils/constants";
-
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import ImageUpload from "components/image/ImageUpload";
-import useFirebase from "hooks/useFirebaseImage";
-import Toggle from "components/toggle/Toggle";
-import { async } from "@firebase/util";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "firebase-app/firsbase-config";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
@@ -27,54 +28,85 @@ const PostAddNew = () => {
       slug: "",
       status: 2,
       category: "",
-      hot: false,
     },
   });
   // watch
-  // watchStatus
   const watchStatus = watch("status");
-  // watchHot
-  const watchHot = watch("hot");
   // Add Post, submit
   const addPostHandler = async (values) => {
     const cloneValues = { ...values };
 
     cloneValues.slug = slugify(values.slug || values.title);
     cloneValues.status = Number(values.status);
-    console.log(
-      "🚀 ~ file: PostAddNew.js ~ line 41 ~ addPostHandler ~ cloneValues",
-      cloneValues
+    handleUploadImage(cloneValues.image);
+  };
+  // Progess
+  const [progress, setProgress] = useState(0);
+  // Image
+  const [image, setImage] = useState("");
+  // handleUploadImage
+  const handleUploadImage = (file) => {
+    const storage = getStorage();
+    const storageRef = ref(storage, "images/" + file.name);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progressPercen =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setProgress(progressPercen);
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+          default:
+            console.log("Nothing at all!!");
+        }
+      },
+      (error) => {
+        console.log("Error!!");
+      },
+      () => {
+        // Upload completed successfully, now we can get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setImage(downloadURL);
+        });
+      }
     );
-    // handleUploadImage(cloneValues.image);
+  };
+  // onSelectImage
+  const onSelectImage = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setValue("image_name", file.name);
+    handleUploadImage(file);
   };
 
-  // hook useFirebaseImage
-  const { image, progress, handleDeleteImage, handleSelectImage } = useFirebase(
-    setValue,
-    getValues
-  );
+  // Delete Image
+  const handleDeleteImage = () => {
+    const storage = getStorage();
 
-  // useEffect, doc, Category
-  useEffect(() => {
-    async function getData() {
-      const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "==", 1));
-      const querySnapshot = await getDocs(q);
-      let result = [];
-      querySnapshot.forEach((doc) => {
-        // console.log(doc.id, " => ", doc.data());
-        result.push({
-          id: doc.id,
-          ...doc.data(),
-        });
+    // Create a reference to the file to delete
+    const imageRef = ref(storage, "images/" + getValues("image_name"));
+
+    // Delete the file
+    deleteObject(imageRef)
+      .then(() => {
+        // File deleted successfully
+        console.log("Remove image successfully!!");
+        setImage("");
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log("Can not delete image!!");
       });
-      console.log(
-        "🚀 ~ file: PostAddNew.js ~ line 64 ~ getData ~ result",
-        result
-      );
-    }
-    getData();
-  }, []);
+  };
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>
@@ -103,23 +135,11 @@ const PostAddNew = () => {
             <ImageUpload
               type="file"
               name="image"
-              onChange={(e) => handleSelectImage(e)}
+              onChange={(e) => onSelectImage(e)}
               progress={progress}
               image={image}
               handleDeleteImage={handleDeleteImage}
             ></ImageUpload>
-          </Field>
-          <Field>
-            <Label>Category</Label>
-          </Field>
-        </div>
-        <div className="grid grid-cols-2 gap-x-10 mb-10">
-          <Field>
-            <Label>Feature post</Label>
-            <Toggle
-              on={watchHot === true}
-              onClick={() => setValue("hot", !watchHot)}
-            ></Toggle>
           </Field>
           <Field>
             <Label>Status</Label>
@@ -152,6 +172,19 @@ const PostAddNew = () => {
               </Radio>
             </div>
           </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-x-10 mb-10">
+          <Field>
+            <Label>Category</Label>
+            <Dropdown>
+              <Dropdown.Option>Knowledge</Dropdown.Option>
+              <Dropdown.Option>Blockchain</Dropdown.Option>
+              <Dropdown.Option>Setup</Dropdown.Option>
+              <Dropdown.Option>Nature</Dropdown.Option>
+              <Dropdown.Option>Developer</Dropdown.Option>
+            </Dropdown>
+          </Field>
+          <Field></Field>
         </div>
         <Button type="submit" className="mx-auto">
           Add new post

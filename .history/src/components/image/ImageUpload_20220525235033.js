@@ -1,14 +1,7 @@
 import React from "react";
 
 const ImageUpload = (props) => {
-  const {
-    name,
-    className = "",
-    progress = 0,
-    image = "",
-    handleDeleteImage = () => {},
-    ...rest
-  } = props;
+  const { name, className = "", progress = 0, image = "", ...rest } = props;
   return (
     <label
       className={`cursor-pointer flex items-center justify-center bg-gray-100 border-dashed w-full min-h-[200px] rounded-lg ${className} relative overflow-hidden`}
@@ -19,10 +12,7 @@ const ImageUpload = (props) => {
         onChange={() => {}}
         {...rest}
       />
-      {progress !== 0 && (
-        <div className="loading w-16 h-16 border-8 border-green-500 border-t-transparent animate-spin absolute z-10 rounded-full"></div>
-      )}
-      {!image && progress === 0 && (
+      {!image && (
         <div className="flex flex-col items-center text-center pointer-events-none">
           <img
             src="/img-upload.png"
@@ -35,11 +25,7 @@ const ImageUpload = (props) => {
       {image && (
         <>
           <img src={image} className="w-full h-full object-cover" alt="" />
-          <button
-            type="button"
-            className="w-16 h-16 bg-white rounded-full flex items-center justify-center absolute z-10 text-red-500"
-            onClick={() => handleDeleteImage()}
-          >
+          <button className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"

@@ -19,10 +19,7 @@ const ImageUpload = (props) => {
         onChange={() => {}}
         {...rest}
       />
-      {progress !== 0 && (
-        <div className="loading w-16 h-16 border-8 border-green-500 border-t-transparent animate-spin absolute z-10 rounded-full"></div>
-      )}
-      {!image && progress === 0 && (
+      {!image && (
         <div className="flex flex-col items-center text-center pointer-events-none">
           <img
             src="/img-upload.png"

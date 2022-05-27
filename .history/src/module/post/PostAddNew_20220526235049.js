@@ -4,7 +4,7 @@ import { Dropdown } from "components/dropdown";
 import { Field } from "components/field";
 import { Input } from "components/input";
 import { Label } from "components/label";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import styled from "styled-components";
@@ -13,9 +13,6 @@ import { postStatus } from "utils/constants";
 import ImageUpload from "components/image/ImageUpload";
 import useFirebase from "hooks/useFirebaseImage";
 import Toggle from "components/toggle/Toggle";
-import { async } from "@firebase/util";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "firebase-app/firsbase-config";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
@@ -53,28 +50,6 @@ const PostAddNew = () => {
     setValue,
     getValues
   );
-
-  // useEffect, doc, Category
-  useEffect(() => {
-    async function getData() {
-      const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "==", 1));
-      const querySnapshot = await getDocs(q);
-      let result = [];
-      querySnapshot.forEach((doc) => {
-        // console.log(doc.id, " => ", doc.data());
-        result.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-      console.log(
-        "🚀 ~ file: PostAddNew.js ~ line 64 ~ getData ~ result",
-        result
-      );
-    }
-    getData();
-  }, []);
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>

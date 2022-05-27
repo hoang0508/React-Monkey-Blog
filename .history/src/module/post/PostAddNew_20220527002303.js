@@ -58,20 +58,12 @@ const PostAddNew = () => {
   useEffect(() => {
     async function getData() {
       const colRef = collection(db, "categories");
-      const q = query(colRef, where("status", "==", 1));
+      const q = query(collection(colRef, where("status", "==", 1)));
       const querySnapshot = await getDocs(q);
-      let result = [];
       querySnapshot.forEach((doc) => {
-        // console.log(doc.id, " => ", doc.data());
-        result.push({
-          id: doc.id,
-          ...doc.data(),
-        });
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
       });
-      console.log(
-        "🚀 ~ file: PostAddNew.js ~ line 64 ~ getData ~ result",
-        result
-      );
     }
     getData();
   }, []);
