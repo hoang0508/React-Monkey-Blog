@@ -27,15 +27,13 @@ const PostAddNew = () => {
     userInfo
   );
   // react hook form
-  const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
+  const { control, watch, setValue, handleSubmit, getValues } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
       slug: "",
       status: 2,
       hot: false,
-      categoryId: "",
-      image: "",
     },
   });
   // watch
@@ -48,14 +46,10 @@ const PostAddNew = () => {
     setValue,
     getValues
   );
-  // Categories
-  const [categories, setCategories] = useState([]);
-  // Category
-  const [selectCategory, setSelectCategory] = useState("");
   // Add Post, submit
   const addPostHandler = async (values) => {
     const cloneValues = { ...values };
-    cloneValues.slug = slugify(values.slug || values.title, { lower: false });
+    cloneValues.slug = slugify(values.slug || values.title);
     cloneValues.status = Number(values.status);
 
     // Adđoc Firebase
@@ -66,16 +60,10 @@ const PostAddNew = () => {
       userId: userInfo.uid,
     });
     toast.success("Create new post successfully!!");
-    reset({
-      title: "",
-      slug: "",
-      status: 2,
-      hot: false,
-      categoryId: "",
-      image: "",
-    });
-    setSelectCategory({});
   };
+
+  // Categories
+  const [categories, setCategories] = useState([]);
 
   // useEffect, doc, Category
   useEffect(() => {
@@ -95,12 +83,6 @@ const PostAddNew = () => {
     }
     getData();
   }, []);
-
-  // Option,
-  const handleClickOption = (item) => {
-    setValue("categoryId", item.id);
-    setSelectCategory(item);
-  };
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>
@@ -138,27 +120,20 @@ const PostAddNew = () => {
           <Field>
             <Label>Category</Label>
             <Dropdown>
-              <Dropdown.Select
-                placeholder={`${selectCategory.name || "Select the category"}`}
-              ></Dropdown.Select>
+              <Dropdown.Select placeholder="Select the category"></Dropdown.Select>
               <Dropdown.List>
                 {categories &&
                   categories.length > 0 &&
                   categories.map((item) => (
                     <Dropdown.Option
                       key={item.id}
-                      onClick={() => handleClickOption(item)}
+                      onClick={() => setValue("categoryId", item.id)}
                     >
                       {item.name}
                     </Dropdown.Option>
                   ))}
               </Dropdown.List>
             </Dropdown>
-            {selectCategory?.name && (
-              <span className="inline-block p-4 rounded-lg bg-green-100 text-green-600 font-medium">
-                {selectCategory?.name}
-              </span>
-            )}
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-x-10 mb-10">

@@ -5,7 +5,6 @@ const Option = ({ children, ...props }) => {
   const { setShow } = useDropdown();
   const { onClick } = props;
   const handleClick = () => {
-    onClick && onClick();
     setShow(false);
   };
   return (

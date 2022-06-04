@@ -74,7 +74,6 @@ const PostAddNew = () => {
       categoryId: "",
       image: "",
     });
-    setSelectCategory({});
   };
 
   // useEffect, doc, Category
@@ -138,9 +137,7 @@ const PostAddNew = () => {
           <Field>
             <Label>Category</Label>
             <Dropdown>
-              <Dropdown.Select
-                placeholder={`${selectCategory.name || "Select the category"}`}
-              ></Dropdown.Select>
+              <Dropdown.Select placeholder="Select the category"></Dropdown.Select>
               <Dropdown.List>
                 {categories &&
                   categories.length > 0 &&
@@ -154,11 +151,10 @@ const PostAddNew = () => {
                   ))}
               </Dropdown.List>
             </Dropdown>
-            {selectCategory?.name && (
-              <span className="inline-block p-4 rounded-lg bg-green-100 text-green-600 font-medium">
-                {selectCategory?.name}
-              </span>
-            )}
+
+            <span className="inline-block p-4 rounded-lg bg-gray-200 text-sm font-medium">
+              {selectCategory.name}
+            </span>
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-x-10 mb-10">

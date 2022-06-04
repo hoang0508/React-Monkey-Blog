@@ -154,9 +154,9 @@ const PostAddNew = () => {
                   ))}
               </Dropdown.List>
             </Dropdown>
-            {selectCategory?.name && (
+            {selectCategory.name && (
               <span className="inline-block p-4 rounded-lg bg-green-100 text-green-600 font-medium">
-                {selectCategory?.name}
+                {selectCategory.name}
               </span>
             )}
           </Field>

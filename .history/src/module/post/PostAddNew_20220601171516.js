@@ -13,29 +13,19 @@ import { postStatus } from "utils/constants";
 import ImageUpload from "components/image/ImageUpload";
 import useFirebase from "hooks/useFirebaseImage";
 import Toggle from "components/toggle/Toggle";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "firebase-app/firsbase-config";
-import { useAuth } from "contexts/auth-context";
-import { toast } from "react-toastify";
 
 const PostAddNewStyles = styled.div``;
 const PostAddNew = () => {
-  // useAuth
-  const { userInfo } = useAuth();
-  console.log(
-    "🚀 ~ file: PostAddNew.js ~ line 25 ~ PostAddNew ~ userInfo",
-    userInfo
-  );
   // react hook form
-  const { control, watch, setValue, handleSubmit, getValues, reset } = useForm({
+  const { control, watch, setValue, handleSubmit, getValues } = useForm({
     mode: "onChange",
     defaultValues: {
       title: "",
       slug: "",
       status: 2,
       hot: false,
-      categoryId: "",
-      image: "",
     },
   });
   // watch
@@ -43,39 +33,27 @@ const PostAddNew = () => {
   const watchStatus = watch("status");
   // watchHot
   const watchHot = watch("hot");
+  // Add Post, submit
+  const addPostHandler = async (values) => {
+    const cloneValues = { ...values };
+
+    cloneValues.slug = slugify(values.slug || values.title);
+    cloneValues.status = Number(values.status);
+    console.log(
+      "🚀 ~ file: PostAddNew.js ~ line 44 ~ addPostHandler ~ cloneValues",
+      cloneValues
+    );
+    // handleUploadImage(cloneValues.image);
+  };
+
   // hook useFirebaseImage
   const { image, progress, handleDeleteImage, handleSelectImage } = useFirebase(
     setValue,
     getValues
   );
+
   // Categories
   const [categories, setCategories] = useState([]);
-  // Category
-  const [selectCategory, setSelectCategory] = useState("");
-  // Add Post, submit
-  const addPostHandler = async (values) => {
-    const cloneValues = { ...values };
-    cloneValues.slug = slugify(values.slug || values.title, { lower: false });
-    cloneValues.status = Number(values.status);
-
-    // Adđoc Firebase
-    const colRef = collection(db, "posts");
-    await addDoc(colRef, {
-      ...cloneValues,
-      image,
-      userId: userInfo.uid,
-    });
-    toast.success("Create new post successfully!!");
-    reset({
-      title: "",
-      slug: "",
-      status: 2,
-      hot: false,
-      categoryId: "",
-      image: "",
-    });
-    setSelectCategory({});
-  };
 
   // useEffect, doc, Category
   useEffect(() => {
@@ -95,12 +73,6 @@ const PostAddNew = () => {
     }
     getData();
   }, []);
-
-  // Option,
-  const handleClickOption = (item) => {
-    setValue("categoryId", item.id);
-    setSelectCategory(item);
-  };
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>
@@ -138,27 +110,20 @@ const PostAddNew = () => {
           <Field>
             <Label>Category</Label>
             <Dropdown>
-              <Dropdown.Select
-                placeholder={`${selectCategory.name || "Select the category"}`}
-              ></Dropdown.Select>
+              <Dropdown.Select placeholder="Select the category"></Dropdown.Select>
               <Dropdown.List>
                 {categories &&
                   categories.length > 0 &&
                   categories.map((item) => (
                     <Dropdown.Option
                       key={item.id}
-                      onClick={() => handleClickOption(item)}
+                      onClick={() => setValue("categoryId", item.id)}
                     >
                       {item.name}
                     </Dropdown.Option>
                   ))}
               </Dropdown.List>
             </Dropdown>
-            {selectCategory?.name && (
-              <span className="inline-block p-4 rounded-lg bg-green-100 text-green-600 font-medium">
-                {selectCategory?.name}
-              </span>
-            )}
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-x-10 mb-10">
