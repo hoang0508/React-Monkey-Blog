@@ -18,32 +18,21 @@ const HomeFeature = () => {
     const colRef = collection(db, "posts");
     const queries = query(
       colRef,
-      where("status", "==", 1),
-      where("hot", "==", true),
+      where("status", "===", 1),
+      where("hot", "===", true),
       limit(3)
     );
     onSnapshot(queries, (snapshot) => {
-      const result = [];
-      snapshot.forEach((doc) => {
-        result.push({
-          id: doc.id,
-          ...doc.data(),
-        });
+      snapshot.forEach((item) => {
+        console.log(item.data());
       });
-      setPosts(result);
     });
   }, []);
-
-  if (posts.length <= 0) return null;
   return (
     <HomeFeatureStyles className="home-block">
       <div className="container">
         <Heading>Bài viết nổi bật</Heading>
-        <div className="grid-layout">
-          {posts.map((post) => (
-            <PostFeatureItem key={post.id} data={post}></PostFeatureItem>
-          ))}
-        </div>
+        <div className="grid-layout"></div>
       </div>
     </HomeFeatureStyles>
   );

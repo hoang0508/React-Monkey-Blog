@@ -13,14 +13,7 @@ import { postStatus } from "utils/constants";
 import ImageUpload from "components/image/ImageUpload";
 import useFirebase from "hooks/useFirebaseImage";
 import Toggle from "components/toggle/Toggle";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { db } from "firebase-app/firsbase-config";
 import { useAuth } from "contexts/auth-context";
 import { toast } from "react-toastify";
@@ -51,19 +44,16 @@ const PostAddNew = () => {
   // watchHot
   const watchHot = watch("hot");
   // hook useFirebaseImage
-  const {
-    image,
-    handleResetUpload,
-    progress,
-    handleDeleteImage,
-    handleSelectImage,
-  } = useFirebase(setValue, getValues);
+  const { image, progress, handleDeleteImage, handleSelectImage } = useFirebase(
+    setValue,
+    getValues
+  );
   // Categories
   const [categories, setCategories] = useState([]);
   // Category
   const [selectCategory, setSelectCategory] = useState("");
   // Loading
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   // Add Post, submit
   const addPostHandler = async (values) => {
     try {
@@ -81,11 +71,8 @@ const PostAddNew = () => {
         ...cloneValues,
         image,
         userId: userInfo.uid,
-        createAt: serverTimestamp(),
       });
-      // Toat message
       toast.success("Create new post successfully!!");
-      // Reset
       reset({
         title: "",
         slug: "",
@@ -94,7 +81,6 @@ const PostAddNew = () => {
         categoryId: "",
         image: "",
       });
-      handleResetUpload();
       setSelectCategory({});
     } catch (error) {
       setLoading(false);
@@ -127,11 +113,6 @@ const PostAddNew = () => {
     setValue("categoryId", item.id);
     setSelectCategory(item);
   };
-
-  // Document title
-  useEffect(() => {
-    document.title = "Monkey Blogging - Add new post";
-  }, []);
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>

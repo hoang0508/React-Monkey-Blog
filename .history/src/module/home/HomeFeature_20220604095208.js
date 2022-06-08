@@ -33,7 +33,6 @@ const HomeFeature = () => {
       setPosts(result);
     });
   }, []);
-
   if (posts.length <= 0) return null;
   return (
     <HomeFeatureStyles className="home-block">
@@ -41,7 +40,7 @@ const HomeFeature = () => {
         <Heading>Bài viết nổi bật</Heading>
         <div className="grid-layout">
           {posts.map((post) => (
-            <PostFeatureItem key={post.id} data={post}></PostFeatureItem>
+            <PostFeatureItem key={post.ìd}></PostFeatureItem>
           ))}
         </div>
       </div>

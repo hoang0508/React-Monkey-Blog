@@ -76,9 +76,7 @@ const PostFeatureItem = ({ data }) => {
   }, [data.userId]);
   if (!data || !data.id) return null;
   // CreateAt , date
-  const date = data.createAt?.seconds
-    ? new Date(data.createAt?.seconds * 1000)
-    : new Date();
+  const date = new Date(data.createAt?.seconds * 1000);
   const fomatDate = new Date(date).toLocaleDateString("vi-VI");
 
   return (

@@ -83,9 +83,7 @@ const PostAddNew = () => {
         userId: userInfo.uid,
         createAt: serverTimestamp(),
       });
-      // Toat message
       toast.success("Create new post successfully!!");
-      // Reset
       reset({
         title: "",
         slug: "",
@@ -127,11 +125,6 @@ const PostAddNew = () => {
     setValue("categoryId", item.id);
     setSelectCategory(item);
   };
-
-  // Document title
-  useEffect(() => {
-    document.title = "Monkey Blogging - Add new post";
-  }, []);
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>

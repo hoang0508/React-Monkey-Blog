@@ -74,13 +74,6 @@ const PostFeatureItem = ({ data }) => {
     }
     fetchUser();
   }, [data.userId]);
-  if (!data || !data.id) return null;
-  // CreateAt , date
-  const date = data.createAt?.seconds
-    ? new Date(data.createAt?.seconds * 1000)
-    : new Date();
-  const fomatDate = new Date(date).toLocaleDateString("vi-VI");
-
   return (
     <PostFeatureItemStyles>
       <PostImage url={data.image} alt="unsplash" to="/"></PostImage>
@@ -93,7 +86,6 @@ const PostFeatureItem = ({ data }) => {
           <PostMeta
             to={slugify(user?.name || "", { lower: false })}
             author={user?.name}
-            date={fomatDate}
           ></PostMeta>
         </div>
         <PostTitle to={data.slug} size="big">

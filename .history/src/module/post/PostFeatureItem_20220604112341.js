@@ -6,7 +6,6 @@ import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
-import slugify from "slugify";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -64,41 +63,26 @@ const PostFeatureItem = ({ data }) => {
   // User, getDoc
   useEffect(() => {
     async function fetchUser() {
-      if (data.userId) {
-        const docRef = doc(db, "users", data.userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.data()) {
-          setUser(docSnap.data());
-        }
-      }
+      const docRef = doc(db, "users", data.userId);
+      const docSnap = await getDoc(docRef);
+      console.log(
+        "🚀 ~ file: PostFeatureItem.js ~ line 68 ~ fetchUser ~ docSnap",
+        docSnap.data()
+      );
+      setUser(docSnap.data());
     }
     fetchUser();
   }, [data.userId]);
-  if (!data || !data.id) return null;
-  // CreateAt , date
-  const date = data.createAt?.seconds
-    ? new Date(data.createAt?.seconds * 1000)
-    : new Date();
-  const fomatDate = new Date(date).toLocaleDateString("vi-VI");
-
   return (
     <PostFeatureItemStyles>
       <PostImage url={data.image} alt="unsplash" to="/"></PostImage>
       <div className="post-overlay"></div>
       <div className="post-content">
         <div className="post-top">
-          {category?.name && (
-            <PostCategory to={category.slug}>{category.name}</PostCategory>
-          )}
-          <PostMeta
-            to={slugify(user?.name || "", { lower: false })}
-            author={user?.name}
-            date={fomatDate}
-          ></PostMeta>
+          {category?.name && <PostCategory>{category.name}</PostCategory>}
+          <PostMeta></PostMeta>
         </div>
-        <PostTitle to={data.slug} size="big">
-          {data.title}
-        </PostTitle>
+        <PostTitle size="big">{data.title}</PostTitle>
       </div>
     </PostFeatureItemStyles>
   );

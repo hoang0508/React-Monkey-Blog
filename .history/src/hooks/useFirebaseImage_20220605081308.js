@@ -76,15 +76,10 @@ const useFirebase = (setValue, getValues) => {
         console.log("Can not delete image!!");
       });
   };
-  // Reset Upload
-  const handleResetUpload = () => {
-    setImage("");
-    setProgress("");
-  };
   return {
     progress,
     image,
-    handleResetUpload,
+    setImage,
     handleDeleteImage,
     handleSelectImage,
   };

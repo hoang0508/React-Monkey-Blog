@@ -76,10 +76,11 @@ const PostFeatureItem = ({ data }) => {
   }, [data.userId]);
   if (!data || !data.id) return null;
   // CreateAt , date
-  const date = data.createAt?.seconds
-    ? new Date(data.createAt?.seconds * 1000)
-    : new Date();
-  const fomatDate = new Date(date).toLocaleDateString("vi-VI");
+  const date = new Date(data.createAt.second * 1000);
+  console.log(
+    "🚀 ~ file: PostFeatureItem.js ~ line 80 ~ PostFeatureItem ~ date",
+    date
+  );
 
   return (
     <PostFeatureItemStyles>
@@ -93,7 +94,7 @@ const PostFeatureItem = ({ data }) => {
           <PostMeta
             to={slugify(user?.name || "", { lower: false })}
             author={user?.name}
-            date={fomatDate}
+            // date={data?.createAt || ""}
           ></PostMeta>
         </div>
         <PostTitle to={data.slug} size="big">

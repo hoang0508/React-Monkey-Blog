@@ -51,13 +51,8 @@ const PostAddNew = () => {
   // watchHot
   const watchHot = watch("hot");
   // hook useFirebaseImage
-  const {
-    image,
-    handleResetUpload,
-    progress,
-    handleDeleteImage,
-    handleSelectImage,
-  } = useFirebase(setValue, getValues);
+  const { image, setImage, progress, handleDeleteImage, handleSelectImage } =
+    useFirebase(setValue, getValues);
   // Categories
   const [categories, setCategories] = useState([]);
   // Category
@@ -83,9 +78,7 @@ const PostAddNew = () => {
         userId: userInfo.uid,
         createAt: serverTimestamp(),
       });
-      // Toat message
       toast.success("Create new post successfully!!");
-      // Reset
       reset({
         title: "",
         slug: "",
@@ -94,7 +87,7 @@ const PostAddNew = () => {
         categoryId: "",
         image: "",
       });
-      handleResetUpload();
+      setImage("");
       setSelectCategory({});
     } catch (error) {
       setLoading(false);
@@ -127,11 +120,6 @@ const PostAddNew = () => {
     setValue("categoryId", item.id);
     setSelectCategory(item);
   };
-
-  // Document title
-  useEffect(() => {
-    document.title = "Monkey Blogging - Add new post";
-  }, []);
   return (
     <PostAddNewStyles>
       <h1 className="dashboard-heading">Add new post</h1>

@@ -6,7 +6,6 @@ import PostCategory from "./PostCategory";
 import PostImage from "./PostImage";
 import PostMeta from "./PostMeta";
 import PostTitle from "./PostTitle";
-import slugify from "slugify";
 const PostFeatureItemStyles = styled.div`
   width: 100%;
   border-radius: 16px;
@@ -74,13 +73,6 @@ const PostFeatureItem = ({ data }) => {
     }
     fetchUser();
   }, [data.userId]);
-  if (!data || !data.id) return null;
-  // CreateAt , date
-  const date = data.createAt?.seconds
-    ? new Date(data.createAt?.seconds * 1000)
-    : new Date();
-  const fomatDate = new Date(date).toLocaleDateString("vi-VI");
-
   return (
     <PostFeatureItemStyles>
       <PostImage url={data.image} alt="unsplash" to="/"></PostImage>
@@ -90,11 +82,7 @@ const PostFeatureItem = ({ data }) => {
           {category?.name && (
             <PostCategory to={category.slug}>{category.name}</PostCategory>
           )}
-          <PostMeta
-            to={slugify(user?.name || "", { lower: false })}
-            author={user?.name}
-            date={fomatDate}
-          ></PostMeta>
+          {user?.name && <PostMeta author={user.name}></PostMeta>}
         </div>
         <PostTitle to={data.slug} size="big">
           {data.title}
