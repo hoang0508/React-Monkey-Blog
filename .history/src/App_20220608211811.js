@@ -1,5 +1,4 @@
 import CategoryAddNew from "module/category/CategoryAddNew";
-import CategoryManage from "module/category/CategoryManage";
 import DashboardLayout from "module/dashboard/DashboardLayout";
 import PostAddNew from "module/post/PostAddNew";
 import PostManage from "module/post/PostManage";
@@ -26,10 +25,6 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />}></Route>
             <Route path="/manage/post" element={<PostManage />}></Route>
             <Route path="/manage/add-post" element={<PostAddNew />}></Route>
-            <Route
-              path="/manage/category"
-              element={<CategoryManage></CategoryManage>}
-            ></Route>
             <Route
               path="/manage/add-category"
               element={<CategoryAddNew></CategoryAddNew>}
