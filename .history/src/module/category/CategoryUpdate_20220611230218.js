@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { Button } from "components/button";
 import { Radio } from "components/checkbox";
 import { Field, FieldCheckboxes } from "components/field";
@@ -8,20 +9,12 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import DashboardHeading from "module/dashboard/DashboardHeading";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import slugify from "slugify";
+import { useSearchParams } from "react-router-dom";
 import { categoryStatus } from "utils/constants";
 
 const CategoryUpdate = () => {
   // useForm
-  const {
-    control,
-    reset,
-    watch,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({
+  const { control, reset, watch, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {},
   });
@@ -39,18 +32,15 @@ const CategoryUpdate = () => {
   }, [categoryId, reset]);
   // watch, status
   const watchStatus = watch("status");
-  // Navigate
-  const navigate = useNavigate();
+
   // handleSubmit
   const handleUpdateCategory = async (values) => {
     const colRef = doc(db, "categories", categoryId);
     await updateDoc(colRef, {
-      name: values.name,
-      slug: slugify(values.slug || values.name, { lower: true }),
-      status: Number(values.status),
+      title: values.title,
+      slug: values.slug,
+      status: values.status,
     });
-    toast.success("Update successfullly!!");
-    navigate(`/manage/category`);
   };
   if (!categoryId) return null;
   return (
@@ -101,12 +91,7 @@ const CategoryUpdate = () => {
             </FieldCheckboxes>
           </Field>
         </div>
-        <Button
-          kind="primary"
-          className="mx-auto"
-          disable={isSubmitting}
-          isLoading={isSubmitting}
-        >
+        <Button kind="primary" className="mx-auto">
           Update category
         </Button>
       </form>

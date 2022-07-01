@@ -35,7 +35,6 @@ const CategoryManage = () => {
   const [lastDoc, setLastDoc] = useState();
   // total , size page
   const [total, setTotal] = useState();
-  // Button Load more
   const handleLoadMoreCategory = async () => {
     const nextRef = query(
       collection(db, "categories"),
@@ -181,14 +180,12 @@ const CategoryManage = () => {
             ))}
         </tbody>
       </Table>
-      {total > categoryList.length && (
-        <div className="mt-10">
-          <Button className="mx-auto" onClick={handleLoadMoreCategory}>
-            Load more
-          </Button>
-          {total}
-        </div>
-      )}
+      <div className="mt-10">
+        <Button className="mx-auto" onClick={handleLoadMoreCategory}>
+          Load more
+        </Button>
+      </div>
+      {total}
     </div>
   );
 };

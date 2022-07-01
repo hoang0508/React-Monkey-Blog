@@ -7,11 +7,8 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
-  limit,
   onSnapshot,
   query,
-  startAfter,
   where,
 } from "firebase/firestore";
 import DashboardHeading from "module/dashboard/DashboardHeading";
@@ -21,8 +18,6 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 
-const CATEGORY_PER_PAGE = 1;
-
 const CategoryManage = () => {
   // navigate
   const navigate = useNavigate();
@@ -30,74 +25,32 @@ const CategoryManage = () => {
   const [categoryList, setCategoryList] = useState([]);
   // Fiter, search
   const [filter, setFilter] = useState("");
-
-  // lastDoc , loadmore
-  const [lastDoc, setLastDoc] = useState();
-  // total , size page
-  const [total, setTotal] = useState();
-  // Button Load more
-  const handleLoadMoreCategory = async () => {
-    const nextRef = query(
-      collection(db, "categories"),
-      startAfter(lastDoc),
-      limit(CATEGORY_PER_PAGE)
-    );
-    // Get document
-    onSnapshot(nextRef, (snapshot) => {
-      let results = [];
+  // category count
+  const [categoryCount, setCategoryCount] = useState("");
+  // useEffect
+  useEffect(() => {
+    // data
+    const colRef = collection(db, "categories");
+    // query firebase,
+    const newRef = filter
+      ? query(
+          colRef,
+          where("name", ">=", filter),
+          where("name", "<=", filter + "utf8")
+        )
+      : colRef;
+    // Lấy dữ liệu data , api
+    onSnapshot(newRef, (snapshot) => {
+      let result = [];
+      setCategoryCount(Number(snapshot.size));
       snapshot.forEach((doc) => {
-        results.push({
+        result.push({
           id: doc.id,
           ...doc.data(),
         });
       });
-      setCategoryList([...categoryList, ...results]);
+      setCategoryList(result);
     });
-    const documentSnapshots = await getDocs(nextRef);
-
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
-  };
-  // useEffect
-  useEffect(() => {
-    async function fetchData() {
-      // data
-      const colRef = collection(db, "categories");
-      // query firebase, filter
-      const newRef = filter
-        ? query(
-            colRef,
-            where("name", ">=", filter),
-            where("name", "<=", filter + "utf8")
-          )
-        : query(colRef, limit(CATEGORY_PER_PAGE));
-
-      // load more
-      const documentSnapshots = await getDocs(newRef);
-
-      const lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      setLastDoc(lastVisible);
-
-      // size page
-      onSnapshot(colRef, (snapshot) => {
-        setTotal(snapshot.size);
-      });
-
-      // Lấy dữ liệu data , api
-      onSnapshot(newRef, (snapshot) => {
-        let results = [];
-        snapshot.forEach((doc) => {
-          results.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-        setCategoryList(results);
-      });
-    }
-    fetchData();
   }, [filter]);
   // handleInputFilter
   const handleInputFilter = debounce((e) => {
@@ -181,14 +134,6 @@ const CategoryManage = () => {
             ))}
         </tbody>
       </Table>
-      {total > categoryList.length && (
-        <div className="mt-10">
-          <Button className="mx-auto" onClick={handleLoadMoreCategory}>
-            Load more
-          </Button>
-          {total}
-        </div>
-      )}
     </div>
   );
 };

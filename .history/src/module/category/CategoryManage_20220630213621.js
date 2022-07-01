@@ -21,7 +21,6 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 
-const CATEGORY_PER_PAGE = 1;
 
 const CategoryManage = () => {
   // navigate
@@ -31,96 +30,86 @@ const CategoryManage = () => {
   // Fiter, search
   const [filter, setFilter] = useState("");
 
-  // lastDoc , loadmore
+  //
   const [lastDoc, setLastDoc] = useState();
-  // total , size page
-  const [total, setTotal] = useState();
-  // Button Load more
   const handleLoadMoreCategory = async () => {
+    // Query the first page of docs
+    const first = query(collection(db, "categories"), limit(1));
+    const documentSnapshots = await getDocs(first);
+
+    // Get the last visible document
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+
+    // Construct a new query starting at this document,
+    // get the next 25 cities.
     const nextRef = query(
       collection(db, "categories"),
-      startAfter(lastDoc),
-      limit(CATEGORY_PER_PAGE)
+      startAfter(lastVisible),
+      limit(1)
     );
     // Get document
     onSnapshot(nextRef, (snapshot) => {
-      let results = [];
+      let result = [];
       snapshot.forEach((doc) => {
-        results.push({
+        result.push({
           id: doc.id,
           ...doc.data(),
         });
       });
-      setCategoryList([...categoryList, ...results]);
+      setCategoryList(result);
     });
-    const documentSnapshots = await getDocs(nextRef);
-
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setLastDoc(lastVisible);
   };
   // useEffect
   useEffect(() => {
     async function fetchData() {
       // data
       const colRef = collection(db, "categories");
-      // query firebase, filter
+      // query firebase,
       const newRef = filter
         ? query(
             colRef,
             where("name", ">=", filter),
             where("name", "<=", filter + "utf8")
           )
-        : query(colRef, limit(CATEGORY_PER_PAGE));
-
-      // load more
-      const documentSnapshots = await getDocs(newRef);
-
-      const lastVisible =
-        documentSnapshots.docs[documentSnapshots.docs.length - 1];
-      setLastDoc(lastVisible);
-
-      // size page
-      onSnapshot(colRef, (snapshot) => {
-        setTotal(snapshot.size);
-      });
-
+        : query(colRef, limit(1));
       // Lấy dữ liệu data , api
       onSnapshot(newRef, (snapshot) => {
-        let results = [];
+        let result = [];
         snapshot.forEach((doc) => {
-          results.push({
+          result.push({
             id: doc.id,
             ...doc.data(),
           });
         });
-        setCategoryList(results);
+        setCategoryList(result);
+      });
+    }
+    }, [filter]);
+    // handleInputFilter
+    const handleInputFilter = debounce((e) => {
+      setFilter(e.target.value);
+    }, 500);
+    const handleDeleteCategory = async (docId) => {
+      // doc => lấy 1 dữ liệu
+      const colRef = doc(db, "categories", docId);
+      // sweet alert confirm
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteDoc(colRef);
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        }
       });
     }
     fetchData();
-  }, [filter]);
-  // handleInputFilter
-  const handleInputFilter = debounce((e) => {
-    setFilter(e.target.value);
-  }, 500);
-  const handleDeleteCategory = async (docId) => {
-    // doc => lấy 1 dữ liệu
-    const colRef = doc(db, "categories", docId);
-    // sweet alert confirm
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await deleteDoc(colRef);
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
   };
   return (
     <div>
@@ -181,14 +170,9 @@ const CategoryManage = () => {
             ))}
         </tbody>
       </Table>
-      {total > categoryList.length && (
-        <div className="mt-10">
-          <Button className="mx-auto" onClick={handleLoadMoreCategory}>
-            Load more
-          </Button>
-          {total}
-        </div>
-      )}
+      <div className="mt-10">
+        <button onClick={handleLoadMoreCategory}>Load more</button>
+      </div>
     </div>
   );
 };

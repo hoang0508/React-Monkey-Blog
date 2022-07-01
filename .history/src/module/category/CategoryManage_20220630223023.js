@@ -35,7 +35,6 @@ const CategoryManage = () => {
   const [lastDoc, setLastDoc] = useState();
   // total , size page
   const [total, setTotal] = useState();
-  // Button Load more
   const handleLoadMoreCategory = async () => {
     const nextRef = query(
       collection(db, "categories"),

@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { Button } from "components/button";
 import { Radio } from "components/checkbox";
 import { Field, FieldCheckboxes } from "components/field";
@@ -15,13 +16,7 @@ import { categoryStatus } from "utils/constants";
 
 const CategoryUpdate = () => {
   // useForm
-  const {
-    control,
-    reset,
-    watch,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({
+  const { control, reset, watch, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {},
   });
@@ -47,7 +42,7 @@ const CategoryUpdate = () => {
     await updateDoc(colRef, {
       name: values.name,
       slug: slugify(values.slug || values.name, { lower: true }),
-      status: Number(values.status),
+      status: values.status,
     });
     toast.success("Update successfullly!!");
     navigate(`/manage/category`);
@@ -101,12 +96,7 @@ const CategoryUpdate = () => {
             </FieldCheckboxes>
           </Field>
         </div>
-        <Button
-          kind="primary"
-          className="mx-auto"
-          disable={isSubmitting}
-          isLoading={isSubmitting}
-        >
+        <Button kind="primary" className="mx-auto">
           Update category
         </Button>
       </form>
